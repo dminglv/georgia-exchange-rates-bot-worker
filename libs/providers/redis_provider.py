@@ -15,5 +15,5 @@ def delete_by_key(key):
     return r.delete(key)
 
 
-def set_new_data(key, value, ttl):
+def set_new_data(key, value, ttl=None):
     return r.set(key, value, ex=ttl)

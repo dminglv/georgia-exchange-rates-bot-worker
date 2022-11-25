@@ -13,10 +13,10 @@ def main():
     if best_rates:
         print('Writing results in DB...')
 
-        set_new_data('USD_buy', json.dumps(best_rates['USD']['buy']), 600)
-        set_new_data('USD_sell', json.dumps(best_rates['USD']['sell']), 600)
-        set_new_data('EUR_buy', json.dumps(best_rates['EUR']['buy']), 600)
-        set_new_data('EUR_sell', json.dumps(best_rates['EUR']['sell']), 600)
+        set_new_data('USD_buy', json.dumps(best_rates['USD']['buy']))
+        set_new_data('USD_sell', json.dumps(best_rates['USD']['sell']))
+        set_new_data('EUR_buy', json.dumps(best_rates['EUR']['buy']))
+        set_new_data('EUR_sell', json.dumps(best_rates['EUR']['sell']))
 
         print('Done')
 
