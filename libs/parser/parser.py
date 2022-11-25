@@ -149,24 +149,24 @@ def match_best_rates():
             'buy': {
                 'organization': list(all_rates_by_currency_and_type['USD']['buy'].keys())[0],
                 'rate': all_rates_by_currency_and_type['USD']['buy'][list(all_rates_by_currency_and_type['USD']['buy'].keys())[0]],
-                'updated_time': time.strftime('%b %d %Y %H:%M:%S')
+                'updated_time': time.strftime('%b %d %Y %H:%M')
             },
             'sell': {
                 'organization': list(all_rates_by_currency_and_type['USD']['sell'].keys())[0],
                 'rate': all_rates_by_currency_and_type['USD']['sell'][list(all_rates_by_currency_and_type['USD']['sell'].keys())[0]],
-                'updated_time': time.strftime('%b %d %Y %H:%M:%S')
+                'updated_time': time.strftime('%b %d %Y %H:%M')
             }
         },
         'EUR': {
             'buy': {
                 'organization': list(all_rates_by_currency_and_type['EUR']['buy'].keys())[0],
                 'rate': all_rates_by_currency_and_type['EUR']['buy'][list(all_rates_by_currency_and_type['EUR']['buy'].keys())[0]],
-                'updated_time': time.strftime('%b %d %Y %H:%M:%S')
+                'updated_time': time.strftime('%b %d %Y %H:%M')
             },
             'sell': {
                 'organization': list(all_rates_by_currency_and_type['EUR']['sell'].keys())[0],
                 'rate': all_rates_by_currency_and_type['EUR']['sell'][list(all_rates_by_currency_and_type['EUR']['sell'].keys())[0]],
-                'updated_time': time.strftime('%b %d %Y %H:%M:%S')
+                'updated_time': time.strftime('%b %d %Y %H:%M')
             }
         }
     }
