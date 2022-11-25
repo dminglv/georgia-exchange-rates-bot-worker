@@ -1,3 +1,4 @@
+import os
 import time
 
 from libs.parser.websites.basisbank import get_basisbank_rates
@@ -140,25 +141,32 @@ def match_best_rates():
     converted_dict = dict(sorted_items)
     all_rates_by_currency_and_type['EUR']['sell'] = converted_dict
 
+    os.environ['TZ'] = 'Asia/Tbilisi'
+    time.tzset()
+
     return {
         'USD': {
             'buy': {
                 'organization': list(all_rates_by_currency_and_type['USD']['buy'].keys())[0],
-                'rate': all_rates_by_currency_and_type['USD']['buy'][list(all_rates_by_currency_and_type['USD']['buy'].keys())[0]]
+                'rate': all_rates_by_currency_and_type['USD']['buy'][list(all_rates_by_currency_and_type['USD']['buy'].keys())[0]],
+                'updated_time': time.strftime('%b %d %Y %H:%M:%S')
             },
             'sell': {
                 'organization': list(all_rates_by_currency_and_type['USD']['sell'].keys())[0],
-                'rate': all_rates_by_currency_and_type['USD']['sell'][list(all_rates_by_currency_and_type['USD']['sell'].keys())[0]]
+                'rate': all_rates_by_currency_and_type['USD']['sell'][list(all_rates_by_currency_and_type['USD']['sell'].keys())[0]],
+                'updated_time': time.strftime('%b %d %Y %H:%M:%S')
             }
         },
         'EUR': {
             'buy': {
                 'organization': list(all_rates_by_currency_and_type['EUR']['buy'].keys())[0],
-                'rate': all_rates_by_currency_and_type['EUR']['buy'][list(all_rates_by_currency_and_type['EUR']['buy'].keys())[0]]
+                'rate': all_rates_by_currency_and_type['EUR']['buy'][list(all_rates_by_currency_and_type['EUR']['buy'].keys())[0]],
+                'updated_time': time.strftime('%b %d %Y %H:%M:%S')
             },
             'sell': {
                 'organization': list(all_rates_by_currency_and_type['EUR']['sell'].keys())[0],
-                'rate': all_rates_by_currency_and_type['EUR']['sell'][list(all_rates_by_currency_and_type['EUR']['sell'].keys())[0]]
+                'rate': all_rates_by_currency_and_type['EUR']['sell'][list(all_rates_by_currency_and_type['EUR']['sell'].keys())[0]],
+                'updated_time': time.strftime('%b %d %Y %H:%M:%S')
             }
         }
     }

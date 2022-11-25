@@ -11,10 +11,10 @@ def main():
     best_rates = match_best_rates()
 
     if best_rates:
-        set_new_data('USD_buy', json.dumps(best_rates['USD']['buy']), 300)
-        set_new_data('USD_sell', json.dumps(best_rates['USD']['sell']), 300)
-        set_new_data('EUR_buy', json.dumps(best_rates['EUR']['buy']), 300)
-        set_new_data('EUR_sell', json.dumps(best_rates['EUR']['sell']), 300)
+        set_new_data('USD_buy', json.dumps(best_rates['USD']['buy']), 600)
+        set_new_data('USD_sell', json.dumps(best_rates['USD']['sell']), 600)
+        set_new_data('EUR_buy', json.dumps(best_rates['EUR']['buy']), 600)
+        set_new_data('EUR_sell', json.dumps(best_rates['EUR']['sell']), 600)
 
 
 if __name__ == "__main__":
