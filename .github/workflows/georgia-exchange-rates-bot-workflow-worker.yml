@@ -1,0 +1,68 @@
+name: Exchange bot worker workflow
+on: [ push ]
+env:
+  SERVICE_NAME: georgia-exchange-rates-bot-worker
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' }} # there are no CI checks today
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Downcase Repo Name for Registry
+        run: |
+          echo "GITHUB_REPOSITORY_LOWERCASE=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
+      - name: Build Docker Image and Push
+        id: docker_build
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/${{ env.GITHUB_REPOSITORY_LOWERCASE }}/${{ env.SERVICE_NAME }}:latest
+
+  DeployDev:
+    runs-on: ubuntu-latest
+    needs: [ Build ]
+    if: ${{ github.ref == 'refs/heads/main' }}
+    env:
+      ENVIRONMENT: production
+      REDIS_HOST: ${{ secrets.REDIS_HOST }}
+      REDIS_PORT: ${{ secrets.REDIS_PORT }}
+      REDIS_PASS: ${{ secrets.REDIS_PASS }}
+    steps:
+      - name: Downcase Repo Name for Registry
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: |
+          echo "GITHUB_REPOSITORY_LOWERCASE=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
+      - name: Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.DEPLOY_SSH_PASSPHRASE }}
+          envs: ENVIRONMENT, REDIS_HOST, REDIS_PORT, REDIS_PASS
+          script: |
+            docker stop ${{ env.SERVICE_NAME }}
+            docker rm ${{ env.SERVICE_NAME }}
+            docker image rm ghcr.io/${{ env.GITHUB_REPOSITORY_LOWERCASE }}/${{ env.SERVICE_NAME }}:latest
+            
+            docker login ghcr.io -u ${{ github.repository_owner }} -p ${{ secrets.GITHUB_TOKEN }}
+            docker pull ghcr.io/${{ env.GITHUB_REPOSITORY_LOWERCASE }}/${{ env.SERVICE_NAME }}:latest
+            
+            export ENVIRONMENT=$ENVIRONMENT
+            export REDIS_HOST=$REDIS_HOST
+            export REDIS_PORT=$REDIS_PORT
+            export REDIS_PASS=$REDIS_PASS
+            
+            docker run --net local-dev -e ENVIRONMENT -e REDIS_HOST -e REDIS_PORT -e REDIS_PASS -d --restart always \
+            --name ${{ env.SERVICE_NAME }} \
+            ghcr.io/${{ env.GITHUB_REPOSITORY_LOWERCASE }}/${{ env.SERVICE_NAME }}:latest
