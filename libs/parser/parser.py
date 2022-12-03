@@ -8,6 +8,7 @@ from libs.parser.websites.halykbank import get_halykbank_rates
 from libs.parser.websites.mbc import get_mbc_rates
 from libs.parser.websites.pashabank import get_pashabank_rates
 from libs.parser.websites.rico import get_rico_rates
+from libs.parser.websites.swisscapital import get_swisscapital_rates
 from libs.parser.websites.valuto import get_valuto_rates
 
 
@@ -99,6 +100,17 @@ def _get_rates():
 
     if basisbank_rates:
         rates['basisbank'] = basisbank_rates
+        endTime = time.time() - start_time
+        print('Done. Completed in ' + str(round(endTime, 2)) + " seconds!")
+
+    print('Get rates from SwissCapital...')
+    start_time = time.time()
+    swisscapital_rates = get_swisscapital_rates()
+    if not swisscapital_rates:
+        print('Error getting results...')
+
+    if swisscapital_rates:
+        rates['swisscapital'] = swisscapital_rates
         endTime = time.time() - start_time
         print('Done. Completed in ' + str(round(endTime, 2)) + " seconds!")
 
