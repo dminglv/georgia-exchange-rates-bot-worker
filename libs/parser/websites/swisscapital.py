@@ -34,6 +34,3 @@ def get_swisscapital_rates():
 
     except:
         return None
-
-
-get_swisscapital_rates()
