@@ -3,8 +3,8 @@ import redis
 from dotenv import load_dotenv
 
 load_dotenv()
-r = redis.Redis(host=str(os.getenv('REDIS_HOST')), port=int(os.getenv('REDIS_PORT')), db=0,
-                ssl=False, ssl_cert_reqs=None, password=str(os.getenv('REDIS_PASS')), decode_responses=True)
+r = redis.Redis(host=os.getenv('REDIS_HOST'), port=os.getenv('REDIS_PORT'), db=0,
+                ssl=False, ssl_cert_reqs=None, password=os.getenv('REDIS_PASS'), decode_responses=True)
 
 
 def get_key_data(key):
