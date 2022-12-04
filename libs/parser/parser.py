@@ -116,6 +116,19 @@ def _get_rates():
 
     return rates
 
+    print('Get rates from MJC...')
+    start_time = time.time()
+    mjc_rates = get_mjc_rates()
+    if not mjc_rates:
+        print('Error getting results...')
+
+    if mjc_rates:
+        rates['mjc'] = mjc_rates
+        endTime = time.time() - start_time
+        print('Done. Completed in ' + str(round(endTime, 2)) + " seconds!")
+
+    return rates
+
 
 def match_best_rates():
     all_rates = _get_rates()
