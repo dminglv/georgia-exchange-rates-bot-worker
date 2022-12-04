@@ -6,6 +6,7 @@ from libs.parser.websites.credobank import get_credo_rates
 from libs.parser.websites.crystal import get_crystal_rates
 from libs.parser.websites.halykbank import get_halykbank_rates
 from libs.parser.websites.mbc import get_mbc_rates
+from libs.parser.websites.mjc import get_mjc_rates
 from libs.parser.websites.pashabank import get_pashabank_rates
 from libs.parser.websites.rico import get_rico_rates
 from libs.parser.websites.swisscapital import get_swisscapital_rates
@@ -113,8 +114,6 @@ def _get_rates():
         rates['swisscapital'] = swisscapital_rates
         endTime = time.time() - start_time
         print('Done. Completed in ' + str(round(endTime, 2)) + " seconds!")
-
-    return rates
 
     print('Get rates from MJC...')
     start_time = time.time()
